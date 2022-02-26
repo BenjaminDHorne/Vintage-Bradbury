@@ -2,9 +2,6 @@ import sqlite3
 
 import queries
 
-from contextlib import closing
-
-#connection = sqlite3.connect("dsm.db")
 db_name = "dsm.db"
 
 
