@@ -45,4 +45,5 @@ def menu():
 if __name__ == "__main__":
     database.create_tables()
     google_sheet.update_db_from_sheet(True)
+    google_sheet.update_db_from_sheet(False)
     #menu()
