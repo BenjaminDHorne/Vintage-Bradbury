@@ -50,3 +50,5 @@ INSERT_MEMORABILIA_IMAGES = """INSERT INTO memorabilia_images (memorabilia_id, i
 
 STARTER_DASH_DATA = """SELECT player, team, card_set, purchase_price FROM cards WHERE rookie = 1 
                     ORDER BY purchase_price DESC LIMIT 10;"""
+
+STARTER_DASH_DATA_MEM = """SELECT item_name, estimated_value FROM memorabilia ORDER BY purchase_price DESC LIMIT 10;"""

@@ -65,3 +65,10 @@ def get_starter_data():
         cursor = connection.cursor()
         cursor.execute(queries.STARTER_DASH_DATA)
         return cursor.fetchall()
+
+
+def get_starter_mem_data():
+    with sqlite3.connect(db_name) as connection:
+        cursor = connection.cursor()
+        cursor.execute(queries.STARTER_DASH_DATA_MEM)
+        return cursor.fetchall()
