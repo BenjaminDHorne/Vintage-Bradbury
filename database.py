@@ -2,6 +2,9 @@ import sqlite3
 
 import queries
 
+from contextlib import closing
+
+#connection = sqlite3.connect("dsm.db")
 db_name = "dsm.db"
 
 
@@ -35,40 +38,35 @@ def insert_card(packed_values):
 
 def insert_memorabilia(packed_values):
     # unpack values
-    collection_code, item_name, signatures, inscriptions, game_used, number_of_autographs, authentication, notes, purchase_price, estimated_value = packed_values
+    collection_code, item_name, signatures, inscriptions, authentication, notes, \
+                    purchase_price, purchase_date = packed_values
 
     # insert into to database
     with sqlite3.connect(db_name) as connection:
         cursor = connection.cursor()
-        cursor.execute(queries.INSERT_MEMORABILIA, (collection_code, item_name, signatures, inscriptions, game_used,
-                                             number_of_autographs, authentication, notes, purchase_price, estimated_value))
+        cursor.execute(queries.INSERT_CARD, (collection_code, item_name, signatures, inscriptions, authentication,
+                                            notes, purchase_price, purchase_date))
         cursor.close()
 
 
-def insert_card_image(images_path):
+def insert_card_image(images_path, cid):
     pass
 
 
-def insert_memorabilia_image(images_path):
+def insert_memorabilia_image(images_path, mid):
     pass
 
 
-def insert_values(packed_values):
-    dateChecked, marketValue, lowestValue, highestValue, avgValue, medValue, stdValue, numSold = packed_values
-    # TODO: insert to db, decide on how to pass around id and serach terms
+# search functions
+def search(table, term):
+    term = f"%{term}%"
+    with sqlite3.connect(db_name) as connection:
+        cursor = connection.cursor()
+        if table == 'card':
+            cursor.execute(queries.SEARCH_CARDS, (term,term,term))
+        elif table == 'mem':
+            cursor.execute(queries.SEARCH_MEM, (term,term))
+        return cursor.fetchall()
+
 
 # report functions
-
-
-def get_starter_data():
-    with sqlite3.connect(db_name) as connection:
-        cursor = connection.cursor()
-        cursor.execute(queries.STARTER_DASH_DATA)
-        return cursor.fetchall()
-
-
-def get_starter_mem_data():
-    with sqlite3.connect(db_name) as connection:
-        cursor = connection.cursor()
-        cursor.execute(queries.STARTER_DASH_DATA_MEM)
-        return cursor.fetchall()
